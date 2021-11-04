@@ -1,14 +1,20 @@
 module.exports = {
   preset: 'react-native',
-  testPathIgnorePatterns: ['/node_modules/', '/.build/'],
-  moduleDirectories: ['node_modules', '<rootDir>'],
-  resetMocks: true,
-  setupFiles: ['react-app-polyfill/jsdom'],
-  setupFilesAfterEnv: ['<rootDir>/.jest/setup.ts'],
-  testMatch: ['**/__tests__/**/?(*.)+(spec|test).[tj]s?(x)'],
-  moduleNameMapper: {
-    '^@finder/(.*)$': '<rootDir>/files-manipulation/$1',
-    '^@metadata/(.*)$': '<rootDir>/folder-metadata/$1',
-    '^@logger/(.*)$': '<rootDir>/logging/$1',
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.spec.json',
+      babelConfig: true,
+    },
   },
+  transform: {
+    '^.+\\.jsx$': 'babel-jest',
+    '^.+\\.tsx?$': 'ts-jest',
+  },
+  transformIgnorePatterns: ['/node_modules/(?!native-base)/'],
+  setupFiles: ['./node_modules/react-native-gesture-handler/jestSetup.js'],
+  setupFilesAfterEnv: ['<rootDir>/.jest/setup.ts'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  testRegex: '(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$',
+  coveragePathIgnorePatterns: ['<rootDir>/src/__tests__/test-utils.jsx'],
+  cacheDirectory: '.jest/cache',
 }
